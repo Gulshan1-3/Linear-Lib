@@ -25,6 +25,11 @@ impl MyVec {
         let answer = vec![vec_a.x - vec_b.x,vec_a.y - vec_b.y];
         answer     
       }
+
+      pub fn scarlar_multiply(s:f64,vec_a:MyVec) -> Vec<f64> {
+        let answer  = vec![s * vec_a.x,s * vec_a.y];
+        answer
+      }
     
     pub fn dot_product(vec_a:MyVec,vec_b:MyVec) -> f64 {
         vec_a.x * vec_b.x + vec_a.y * vec_b.y
@@ -81,6 +86,14 @@ fn test_subtract_fn() {
     let answer = MyVec::subtract(vec_a, vec_b);
     println!("Vector: {:?}", answer);
     assert_eq!(answer, vec![-2.0, -2.0]);
+}
+#[test]
+fn test_scalar_multiply() {
+    let s = 2.; 
+    let vec_a = MyVec::new(3.0, 4.0);
+    let answer = MyVec::scarlar_multiply(s, vec_a);
+    println!("Vector: {:?}", answer);
+    assert_eq!(answer, vec![6.,8.]);
 }
 
 }
