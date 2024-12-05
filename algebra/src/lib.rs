@@ -73,4 +73,14 @@ fn test_add_fn() {
     println!("Vector: {:?}", answer);
     assert_eq!(answer, vec![4.0, 6.0]);
 }
+
+#[test]
+fn test_subtract_fn() {
+    let vec_a = MyVec::new(1.0, 2.0);
+    let vec_b = MyVec::new(3.0, 4.0);
+    let answer = MyVec::subtract(vec_a, vec_b);
+    println!("Vector: {:?}", answer);
+    assert_eq!(answer, vec![-2.0, -2.0]);
+}
+
 }
