@@ -18,12 +18,14 @@ impl MyVec {
 
     pub fn add(vec_a:MyVec,vec_b:MyVec) -> Vec<f64> {
       let answer = vec![vec_a.x + vec_b.x,vec_a.y+ vec_b.y];
-      answer 
-       
-       
-         
+      answer     
     }
-
+    
+    pub fn subtract(vec_a:MyVec,vec_b:MyVec) -> Vec<f64> {
+        let answer = vec![vec_a.x - vec_b.x,vec_a.y - vec_b.y];
+        answer     
+      }
+    
     pub fn dot_product(vec_a:MyVec,vec_b:MyVec) -> f64 {
         vec_a.x * vec_b.x + vec_a.y * vec_b.y
     } 
