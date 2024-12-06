@@ -31,7 +31,19 @@ impl MyVec {
         let answer  = vec![s / vec_a.x,s / vec_a.y];
         answer
       }
-    
+    pub fn magnitude(vec_a:MyVec) -> f64 {
+     let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
+     z.sqrt()
+    }
+
+    pub fn equality(vec_a:MyVec,vec_b:MyVec) -> bool {
+      if vec_a.x == vec_b.x && vec_a.y == vec_b.y {
+        vec_a == vec_b
+      }
+      else{
+        vec_a != vec_b
+      }
+    }
     pub fn dot_product(vec_a:MyVec,vec_b:MyVec) -> f64 {
         vec_a.x * vec_b.x + vec_a.y * vec_b.y
     } 
@@ -105,5 +117,23 @@ fn test_scalar_division() {
     println!("Vector: {:?}", answer);
     assert_eq!(answer, vec![2.,1.]);
 }
+#[test]
+ fn test_magnitude () {
+  let vec_a = MyVec::new(3.0,4.0);
+  let mag = MyVec::magnitude(vec_a);
+  assert_eq!(mag,5.);
+ }
+ #[test]
+ fn test_equality_same_vectors() {
+     let vec_a = MyVec::new(1., 2.);
+     let vec_b = MyVec::new(1., 2.);
+     assert!(MyVec::equality(vec_a, vec_b), "Vectors should be equal.");
+ }
 
+ #[test]
+ fn test_equality_different_vectors() {
+     let vec_a = MyVec::new(1., 4.);
+     let vec_b = MyVec::new(3., 2.);
+     assert!(!MyVec::equality(vec_a, vec_b), "Vectors should not be equal.");
+ }
 }
