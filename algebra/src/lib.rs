@@ -1,7 +1,3 @@
-
-
-
-
 pub const  fn my_vec(x: f64, y: f64) -> MyVec {
     MyVec::new(x,y)
 }
@@ -28,6 +24,11 @@ impl MyVec {
 
       pub fn scarlar_multiply(s:f64,vec_a:MyVec) -> Vec<f64> {
         let answer  = vec![s * vec_a.x,s * vec_a.y];
+        answer
+      }
+
+      pub fn scarlar_division(s:f64,vec_a:MyVec) -> Vec<f64> {
+        let answer  = vec![s / vec_a.x,s / vec_a.y];
         answer
       }
     
@@ -94,6 +95,15 @@ fn test_scalar_multiply() {
     let answer = MyVec::scarlar_multiply(s, vec_a);
     println!("Vector: {:?}", answer);
     assert_eq!(answer, vec![6.,8.]);
+}
+
+#[test]
+fn test_scalar_division() {
+    let s = 4.; 
+    let vec_a = MyVec::new(2.0, 4.0);
+    let answer = MyVec::scarlar_division(s, vec_a);
+    println!("Vector: {:?}", answer);
+    assert_eq!(answer, vec![2.,1.]);
 }
 
 }
