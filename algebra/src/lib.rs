@@ -31,10 +31,7 @@ impl MyVec {
         let answer  = vec![s / vec_a.x,s / vec_a.y];
         answer
       }
-    pub fn magnitude(vec_a:MyVec) -> f64 {
-     let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
-     z.sqrt()
-    }
+   
 
     pub fn equality(vec_a:MyVec,vec_b:MyVec) -> bool {
       if vec_a.x == vec_b.x && vec_a.y == vec_b.y {
@@ -44,6 +41,18 @@ impl MyVec {
         vec_a != vec_b
       }
     }
+  
+    pub fn normality (vec1:MyVec) -> Vec<f64> {
+      let s = vec1.x * vec1.x + vec1.y * vec1.y;
+     let z =  s.sqrt();
+      let normal_x = vec1.x / z; 
+      let normal_y = vec1.y / z; 
+      vec![normal_x, normal_y]
+    }
+    pub fn magnitude(vec_a:MyVec) -> f64 {
+      let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
+      z.sqrt()
+     }
     pub fn dot_product(vec_a:MyVec,vec_b:MyVec) -> f64 {
         vec_a.x * vec_b.x + vec_a.y * vec_b.y
     } 
