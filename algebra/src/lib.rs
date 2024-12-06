@@ -49,9 +49,26 @@ impl MyVec {
       let normal_y = vec1.y / z; 
       vec![normal_x, normal_y]
     }
+    pub fn angle(vec1:MyVec,vec2:MyVec) -> f64 {
+      let mag1 = MyVec::magnitude(vec1);
+      let mag2 = MyVec::magnitude(vec2);
+      let step = MyVec::dot_product(vec1, vec2);
+      let angle = f64::acos(step/mag1*mag2);
+      angle 
+    }
+
+    pub fn distance_btw_vec(vec1:MyVec,vec2:MyVec) -> f64 {
+      let diff = MyVec::subtract(vec2, vec1);
+      let dist = MyVec::magnitude(diff);
+      dist
+    }
     pub fn magnitude(vec_a:MyVec) -> f64 {
       let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
       z.sqrt()
+     }
+     pub fn perpendicular_vector(vec1:MyVec) -> Vec<f64> {
+      let z = vec![-vec1.y,vec1.x];
+      z
      }
     pub fn dot_product(vec_a:MyVec,vec_b:MyVec) -> f64 {
         vec_a.x * vec_b.x + vec_a.y * vec_b.y
@@ -145,4 +162,13 @@ fn test_scalar_division() {
      let vec_b = MyVec::new(3., 2.);
      assert!(!MyVec::equality(vec_a, vec_b), "Vectors should not be equal.");
  }
+ #[test]
+ fn test_euclidean_distance() {
+     // Test case 1: 2D vectors
+     let v1 = vec![3.0, 4.0];
+     let v2 = vec![0.0, 0.0];
+     let result = MyVec::distance_btw_vec(v1, v2);
+     assert_eq!(result, 5.0);
+
+}
 }
