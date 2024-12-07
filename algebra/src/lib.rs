@@ -1,3 +1,4 @@
+
 pub const  fn my_vec(x: f64, y: f64) -> MyVec {
     MyVec::new(x,y)
 }
@@ -73,9 +74,17 @@ pub fn projection(vec1:MyVec,vec2:MyVec) -> Vec<f64> {
   let project = MyVec::scarlar_multiply(s, vec2);
   project
 }
-    
-    pub fn magnitude(vec_a:MyVec) -> f64 {
-      let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
+    pub fn rotation(vec1:MyVec,theta:f64) -> Vec<f64> {
+      let cos_theta = f64::cos(theta);
+      let sin_theta = f64::sin(theta);
+
+     let first = vec1.x * cos_theta - vec1.y * sin_theta;
+     let second = vec1.x * sin_theta + vec1.y * cos_theta;
+      let rotated_vec = vec![first,second];
+      rotated_vec
+    }
+pub fn magnitude(vec_a:MyVec) -> f64 {
+    let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
       z.sqrt()
      }
      pub fn perpendicular_vector(vec1:MyVec) -> Vec<f64> {
