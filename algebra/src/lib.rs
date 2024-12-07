@@ -74,7 +74,7 @@ pub fn projection(vec1:MyVec,vec2:MyVec) -> Vec<f64> {
   let project = MyVec::scarlar_multiply(s, vec2);
   project
 }
-pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec {
+pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec { //try using this MyVec instead of Vec<f64> on previous functions too
   let cos_theta = theta.cos();
   let sin_theta = theta.sin();
 
@@ -95,6 +95,24 @@ pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec {
    //   let rotated_vec = vec![first,second];
    //   rotated_vec
    // }
+
+pub fn reflection(vec1:MyVec,axis:u8) -> MyVec {
+  match axis {
+    0 => MyVec { // 0 = x axis 
+        x: vec1.x,
+        y: -vec1.y, // Reflect across the X-axis
+    },
+    1 => MyVec { // 1 = yaxis 
+        x: -vec1.x, // Reflect across the Y-axis
+        y: vec1.y,
+    },
+    2 => MyVec{
+       x: vec1.y,
+       y:vec1.x,
+    },
+    _ => panic!("Invalid axis. Axis must be 0 or 1."), // Panic on invalid axis
+}
+}
 pub fn magnitude(vec_a:MyVec) -> f64 {
     let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
       z.sqrt()
