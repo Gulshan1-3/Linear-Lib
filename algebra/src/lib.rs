@@ -59,9 +59,21 @@ impl MyVec {
 
     pub fn distance_btw_vec(vec1:MyVec,vec2:MyVec) -> f64 {
       let diff = MyVec::subtract(vec2, vec1);
-      let dist = MyVec::magnitude(diff);
-      dist
+      if diff.len() != 2 {
+        panic!("Vector must have exactly two elements to represent a 2D point.");
     }
+    let z = diff[0] * diff[0] + diff[1] * diff[1];
+    z.sqrt()
+}
+
+pub fn projection(vec1:MyVec,vec2:MyVec) -> Vec<f64> {
+  let dot = MyVec::dot_product(vec1, vec2);
+  let z:f64 =  vec2.x*vec2.x + vec2.y + vec2.y;
+  let s = dot/z;
+  let project = MyVec::scarlar_multiply(s, vec2);
+  project
+}
+    
     pub fn magnitude(vec_a:MyVec) -> f64 {
       let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
       z.sqrt()
@@ -165,8 +177,8 @@ fn test_scalar_division() {
  #[test]
  fn test_euclidean_distance() {
      // Test case 1: 2D vectors
-     let v1 = vec![3.0, 4.0];
-     let v2 = vec![0.0, 0.0];
+     let v1 = MyVec::new(0., 0.);
+     let v2 = MyVec::new(3., 4.);
      let result = MyVec::distance_btw_vec(v1, v2);
      assert_eq!(result, 5.0);
 
