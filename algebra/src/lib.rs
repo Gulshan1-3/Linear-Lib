@@ -74,15 +74,27 @@ pub fn projection(vec1:MyVec,vec2:MyVec) -> Vec<f64> {
   let project = MyVec::scarlar_multiply(s, vec2);
   project
 }
-    pub fn rotation(vec1:MyVec,theta:f64) -> Vec<f64> {
-      let cos_theta = f64::cos(theta);
-      let sin_theta = f64::sin(theta);
+pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec {
+  let cos_theta = theta.cos();
+  let sin_theta = theta.sin();
 
-     let first = vec1.x * cos_theta - vec1.y * sin_theta;
-     let second = vec1.x * sin_theta + vec1.y * cos_theta;
-      let rotated_vec = vec![first,second];
-      rotated_vec
-    }
+  let rotated_x = vec.x * cos_theta - vec.y * sin_theta;
+  let rotated_y = vec.x * sin_theta + vec.y * cos_theta;
+
+  MyVec {
+      x: rotated_x,
+      y: rotated_y,
+  }
+}
+   // pub fn rotation(vec1:MyVec,theta:f64) -> Vec<f64> {
+     // let cos_theta = f64::cos(theta);
+      //let sin_theta = f64::sin(theta);
+
+   //  let first = vec1.x * cos_theta - vec1.y * sin_theta;
+  //   let second = vec1.x * sin_theta + vec1.y * cos_theta;
+   //   let rotated_vec = vec![first,second];
+   //   rotated_vec
+   // }
 pub fn magnitude(vec_a:MyVec) -> f64 {
     let z =  vec_a.x * vec_a.x + vec_a.y * vec_a.y;
       z.sqrt()
