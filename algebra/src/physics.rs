@@ -1,5 +1,6 @@
 use my_project_lib::MyVec;
 #[allow(dead_code)]
+
 pub struct RigidBody {
    pub position: MyVec,
    pub velocity: MyVec,
@@ -12,6 +13,7 @@ pub struct RigidBody {
 }
 //const GRAVITY: MyVec = MyVec::new(0.0, -9.8);
 impl RigidBody {
+    
     pub fn initialize () -> RigidBody {
     let _ball = RigidBody {
      position: MyVec::new(0.1, 0.5),
@@ -35,6 +37,16 @@ impl RigidBody {
    //     y:y_axis,
    // }
 //}
+
+pub fn rigid_body_position(rigid_body: &mut RigidBody,dt: f64) -> MyVec {
+    let ax = rigid_body.position.x + rigid_body.velocity.x * dt;
+    let ay = rigid_body.position.y + rigid_body.velocity.y* dt;
+    
+    MyVec{
+        x:ax,
+        y:ay,
+    }
+}
 pub fn rigid_body_velocity(rigid_body: &mut RigidBody, dt: f64) -> MyVec {
     // Calculate the acceleration in each axis
     let ax = rigid_body.forces.x / rigid_body.mass;
@@ -50,6 +62,9 @@ pub fn rigid_body_velocity(rigid_body: &mut RigidBody, dt: f64) -> MyVec {
         y: new_velocity_y,
     }
 }
+
+
+
 
 }
 
