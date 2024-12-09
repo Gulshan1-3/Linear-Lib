@@ -12,9 +12,9 @@ fn main() {
     println!("Initial Velocity: {:?}", ball.velocity);
 
    // const GRAVITY: MyVec = MyVec::new(0.0, -9.8);
-    let dt = 1.0;
+    let dt = 5.0;
     let new_velocity = physics::RigidBody::rigid_body_velocity(&mut ball, dt); // Update velocity
 
-    println!("New Position: {:?}", ball.position);
+  //  println!("New Position: {:?}", ball.position);
     println!("New Velocity: {:?}", new_velocity);
 }
