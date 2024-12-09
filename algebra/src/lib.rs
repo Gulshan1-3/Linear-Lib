@@ -73,6 +73,7 @@ let s = dot/z;
 let project = MyVec::scarlar_multiply(s, vec2);
 project
 }
+
 pub fn interpolate_vectors (vec1:MyVec,vec2:MyVec,t:f64) -> MyVec{
 let t =  t.clamp(0.0, 1.0);
 MyVec {
@@ -80,7 +81,14 @@ MyVec {
    y: vec1.y + t * (vec2.y - vec1.y),}
 
 }
-pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec { //try using this MyVec instead of Vec<f64> on previous functions too
+pub fn linear_bezier_curve(vec1:MyVec,vec2:MyVec, t:f64) -> MyVec{
+  let t = t.clamp(0.0,1.0);
+  MyVec{
+    x: (1.0-t)*vec1.x + t * vec2.x,
+    y:(1.0-t)*vec1.y + t * vec2.y,}
+  }
+
+pub fn rotate_vector(vec: MyVec, theta: f64) -> MyVec { //try using this MyVec instead of Vec<f64> on previous functions later
 let cos_theta = theta.cos();
 let sin_theta = theta.sin();
 
