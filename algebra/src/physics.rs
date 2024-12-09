@@ -27,7 +27,7 @@ impl RigidBody {
     
 }
 
-//pub fn rigid_body_velocity (rigid_body:&mut RigidBody,dt:f64) -> MyVec {
+//pub fn rigid_body_velocity (rigid_body:&mut RigidBody,dt:f64) -> MyVec { // wrong formula 
    // let x_axis = rigid_body.velocity.x * rigid_body.forces.x / rigid_body.mass * dt;
   //  let y_axis = rigid_body.velocity.y * rigid_body.forces.y / rigid_body.mass * dt;
   //  MyVec{
