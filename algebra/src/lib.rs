@@ -229,7 +229,7 @@ fn test_equality_different_vectors() {
 }
 #[test]
 fn test_euclidean_distance() {
-   // Test case 1: 2D vectors
+   // Test case 1: 2D vectors (implement for 3d later)
    let v1 = MyVec::new(0., 0.);
    let v2 = MyVec::new(3., 4.);
    let result = MyVec::distance_btw_vec(v1, v2);
