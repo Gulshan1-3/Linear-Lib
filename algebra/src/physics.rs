@@ -72,10 +72,11 @@ pub fn update_rigid_body_acceleration(&self)-> MyVec {
     }
 }
 
-pub fn update_angular_velocity(&mut self, dt: f64) {
+pub fn update_angular_velocity(&mut self, dt: f64) -> f64 {
     
     let angular_acc =  self.torque / self.moment_of_inertia;
-    self.angular_velocity += angular_acc*dt
+    let new_angular_velocity = self.angular_velocity + angular_acc*dt;
+    new_angular_velocity
    
 }
 
@@ -87,17 +88,14 @@ pub fn rigid_body_linear_momentum(&self) -> MyVec {
     }
 }
 
-pub fn rigid_body_angular_momentum(&self) 
+pub fn rigid_body_angular_momemtum(&mut self,dt: f64) -> f64 {
+    let angular_mometum =  self.torque * self.update_angular_velocity(dt);
+    angular_mometum
+   
+   
+   }
+   
 
-
-//pub fn rigid_body_momemtum(&self,dt:f64) -> MyVec {
- // MyVec{
-   // x: self.angular_momemtum.x + self.torque * dt,
-   // y: self.angular_momemtum.y  + self.torque * dt,
-//  }
 }
-
-
-
 
 
