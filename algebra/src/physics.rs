@@ -10,6 +10,7 @@ pub struct RigidBody {
    pub moment_of_inertia: f64,
    pub forces: MyVec,
    pub torque: f64,
+   
 }
 //const GRAVITY: MyVec = MyVec::new(0.0, -9.8);
 impl RigidBody {
@@ -23,7 +24,8 @@ impl RigidBody {
         mass: 1.0,
         moment_of_inertia : 0.5, 
         forces: MyVec::new(0.5,0.7),
-        torque: 0.0,
+        torque: 1.0,
+        
     };
     _ball
     
@@ -38,16 +40,16 @@ impl RigidBody {
    // }
 //}
 
-pub fn rigid_body_position(rigid_body: &mut RigidBody,dt: f64) -> MyVec {
-    let ax = rigid_body.position.x + rigid_body.velocity.x * dt;
-    let ay = rigid_body.position.y + rigid_body.velocity.y* dt;
+pub fn update_rigid_body_position(rigid_body: &mut RigidBody,dt: f64) -> MyVec {
+    
     
     MyVec{
-        x:ax,
-        y:ay,
+        x:rigid_body.position.x + rigid_body.velocity.x * dt,
+        y:rigid_body.position.y + rigid_body.velocity.y* dt,
+        
     }
 }
-pub fn rigid_body_velocity(rigid_body: &mut RigidBody, dt: f64) -> MyVec {
+pub fn update_rigid_body_velocity(rigid_body: &mut RigidBody, dt: f64) -> MyVec {
     // Calculate the acceleration in each axis
     let ax = rigid_body.forces.x / rigid_body.mass;
     let ay = rigid_body.forces.y / rigid_body.mass;
@@ -63,10 +65,39 @@ pub fn rigid_body_velocity(rigid_body: &mut RigidBody, dt: f64) -> MyVec {
     }
 }
 
-
-
-
+pub fn update_rigid_body_acceleration(&self)-> MyVec {
+    MyVec{
+        x:self.forces.x / self.mass,
+        y:self.forces.y / self.mass,
+    }
 }
+
+pub fn update_angular_velocity(&mut self, dt: f64) {
+    
+    let angular_acc =  self.torque / self.moment_of_inertia;
+    self.angular_velocity += angular_acc*dt
+   
+}
+
+
+pub fn rigid_body_linear_momentum(&self) -> MyVec {
+    MyVec {
+        x: self.mass * self.velocity.x,
+        y: self.mass * self.velocity.y,
+    }
+}
+
+pub fn rigid_body_angular_momentum(&self) 
+
+
+//pub fn rigid_body_momemtum(&self,dt:f64) -> MyVec {
+ // MyVec{
+   // x: self.angular_momemtum.x + self.torque * dt,
+   // y: self.angular_momemtum.y  + self.torque * dt,
+//  }
+}
+
+
 
 
 
