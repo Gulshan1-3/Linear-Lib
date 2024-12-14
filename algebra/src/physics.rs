@@ -122,8 +122,28 @@ pub fn rigid_body_angular_momemtum(&mut self,dt: f64) -> f64 {
    fn overlap(min1: f32, max1: f32, min2: f32, max2: f32) -> bool {
     !(max1 < min2 || max2 < min1)
 }
+
+
+fn separating_axis_theorem(body1: Vec<MyVec>, body2: Vec<MyVec>) -> bool {
+    let mut axes = MyVec::new(1.0,1.0);
+
+    // Generate axes from body1
+    for i in 0..body1.len() {
+        let next = (i + 1) % body1.len();
+        let edge = MyVec::subtract(body1[next], body1[i]);
+        axes.push(edge.perpendicular_vector());
+    }
+
+    // Generate axes from body2
+    for i in 0..body2.len() {
+        let next = (i + 1) % body2.len();
+        let edge = MyVec::subtract(body1[next], body1[i]);
+        axes.push(edge.perp());
+    }
+
+
    
 
 }
 
-
+}
