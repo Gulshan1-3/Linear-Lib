@@ -1,4 +1,6 @@
-use my_project_lib::MyVec;
+use core::f64;
+
+use my_project_lib::{my_vec, MyVec};
 #[allow(dead_code)]
 
 pub struct RigidBody {
@@ -10,6 +12,7 @@ pub struct RigidBody {
    pub moment_of_inertia: f64,
    pub forces: MyVec,
    pub torque: f64,
+   pub vertices: Vec<MyVec>,
    
 }
 //const GRAVITY: MyVec = MyVec::new(0.0, -9.8);
@@ -25,6 +28,8 @@ impl RigidBody {
         moment_of_inertia : 0.5, 
         forces: MyVec::new(0.5,0.7),
         torque: 1.0,
+        vertices:vec![my_vec(
+       1.0 , 1.0)],
         
     };
     _ball
@@ -94,6 +99,29 @@ pub fn rigid_body_angular_momemtum(&mut self,dt: f64) -> f64 {
    
    
    }
+   pub fn project(&self, axis:MyVec) -> MyVec {
+    let mut min = f64::NEG_INFINITY;
+    let mut max = f64::INFINITY;
+    for vertex in &self.vertices {
+        let projection = MyVec::dot_product(*vertex, axis);
+
+        if projection < min {
+            min = projection;
+        }
+        if projection > max {
+            max = projection;
+        }
+    }
+    MyVec{
+        x:min,
+        y:max,
+    }
+    
+   }
+
+   fn overlap(min1: f32, max1: f32, min2: f32, max2: f32) -> bool {
+    !(max1 < min2 || max2 < min1)
+}
    
 
 }
