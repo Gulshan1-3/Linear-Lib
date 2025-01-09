@@ -1,15 +1,22 @@
-use ash::{vk, Entry};
-fn main () {
-    unsafe  {
-let entry = Entry::load(); 
-let app_info = vk::ApplicationInfo {
-    api_version: vk::make_api_version(0, 1, 0, 0),
-    ..Default::default()
+#[allow(unused_imports)]
+use winit::{
+    event_loop::EventLoop,
+    window::{Window, WindowBuilder},
 };
-let create_info = vk::InstanceCreateInfo {
-    p_application_info: &app_info,
-    ..Default::default()
-};
-let instance = unsafe { entry.create_instance(&create_info, None)? }; }
+#[allow(unused_variables)]
+fn main() {
+    let event_loop = EventLoop::new();
+    let window = WindowBuilder::new().build(&event_loop).unwrap();
 
+    event_loop.run(move |event, _, control_flow| {
+        *control_flow = winit::event_loop::ControlFlow::Wait;
+
+        match event {
+            winit::event::Event::WindowEvent {
+                event: winit::event::WindowEvent::CloseRequested,
+                ..
+            } => *control_flow = winit::event_loop::ControlFlow::Exit,
+            _ => (),
+        }
+    });
 }
