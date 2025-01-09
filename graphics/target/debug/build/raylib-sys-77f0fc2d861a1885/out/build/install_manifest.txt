@@ -1,7 +1,0 @@
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/lib64/libraylib.a
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/include/raylib.h
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/include/rlgl.h
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/include/raymath.h
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/lib64/pkgconfig/raylib.pc
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/lib64/cmake/raylib/raylib-config-version.cmake
-/home/gulshansharma/Linear-Lib/graphics/target/debug/build/raylib-sys-77f0fc2d861a1885/out/lib64/cmake/raylib/raylib-config.cmake

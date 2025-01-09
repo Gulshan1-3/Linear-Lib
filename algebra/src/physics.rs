@@ -131,14 +131,15 @@ fn separating_axis_theorem(body1: Vec<MyVec>, body2: Vec<MyVec>) -> bool {
     for i in 0..body1.len() {
         let next = (i + 1) % body1.len();
         let edge = MyVec::subtract(body1[next], body1[i]);
-        axes.push(edge.perpendicular_vector());
+        let edge_perp = MyVec::perpendicular_vector(edge);
+        
     }
 
     // Generate axes from body2
     for i in 0..body2.len() {
         let next = (i + 1) % body2.len();
         let edge = MyVec::subtract(body1[next], body1[i]);
-        axes.push(edge.perp());
+       // axes.push(edge.perp());
     }
 
 

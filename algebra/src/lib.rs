@@ -120,7 +120,7 @@ match axis {
       x: -vec1.x, // Reflect across the Y-axis
       y: vec1.y,
   },
-  2 => MyVec{
+  2 => MyVec{ // 2 = x is on y axis 
      x: vec1.y,
      y:vec1.x,
   },
