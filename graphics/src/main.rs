@@ -126,12 +126,22 @@ fn main() -> Result<()> {
 
     unsafe {device.wait_for_fences(std::slice::from_ref(&fence), true , u64::MAX)};
 
+    //Read Data
+
+   for value in  allocation.mapped_slice().context("cannot access buffer from host")?{
+    println!("{}",value);
+   }
+
+
+
 
     //cleanup
 
-    allocator.free(allocation)?;
+    unsafe {device.destroy_fence(fence, None)}
     unsafe { device.destroy_command_pool(command_pool, None) }
-    unsafe { device.destroy_buffer(buffer, None) };
+    allocator.free(allocation)?;
+    drop(allocator);
+    unsafe { device.destroy_buffer(buffer, None) }
     unsafe { device.destroy_device(None) }
     unsafe { instance.destroy_instance(None) }
     Ok(())
