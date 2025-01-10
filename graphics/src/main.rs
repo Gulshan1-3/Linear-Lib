@@ -1,4 +1,6 @@
 #![allow(unused)]
+use std::u64;
+
 use anyhow::{Context, Result};
 use ash::{
     self,
@@ -33,6 +35,10 @@ fn main() -> Result<()> {
     };
     let queue = unsafe { device.get_device_queue(0, 0) };
 
+
+     //Create Allocator 
+
+
     let mut allocator = {
         let allocator_create_description = AllocatorCreateDesc {
             instance: instance.clone(),
@@ -43,8 +49,14 @@ fn main() -> Result<()> {
         };
         Allocator::new(&allocator_create_description)?
     };
+
+    //Config
+
     let value_count = 16;
     let value = 314;
+
+    //Create Buffer
+
     let buffer = {
         let create_info = vk::BufferCreateInfo::builder()
             .size(value_count / std::mem::size_of::<i32>() as vk::DeviceSize)
@@ -79,6 +91,9 @@ fn main() -> Result<()> {
             .context("NO command buffers found")?
     };
 
+    //Recording command buffer
+
+
     {
         let begin_info = vk::CommandBufferBeginInfo::builder();
         unsafe { device.begin_command_buffer(command_buffer, &begin_info) }?;
@@ -93,6 +108,27 @@ fn main() -> Result<()> {
         );
     }
     unsafe { device.end_command_buffer(command_buffer) }?;
+
+
+    //Fence
+    let fence = {
+        let create_info = vk::FenceCreateInfo::builder().build();
+        unsafe {
+        device.create_fence(&create_info, None)
+        }?
+    };
+    //Execute command buffer by uploading it to gpu
+    {
+   let submit_info = vk::SubmitInfo::builder().command_buffers(std::slice::from_ref(&command_buffer));
+   unsafe { device.queue_submit(queue, std::slice::from_ref(&submit_info), fence)}?;
+     
+    }
+
+    unsafe {device.wait_for_fences(std::slice::from_ref(&fence), true , u64::MAX)};
+
+
+    //cleanup
+
     allocator.free(allocation)?;
     unsafe { device.destroy_command_pool(command_pool, None) }
     unsafe { device.destroy_buffer(buffer, None) };
