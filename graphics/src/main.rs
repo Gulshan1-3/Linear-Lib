@@ -1,22 +1,16 @@
-#[allow(unused_imports)]
+#![allow(unused)]
+use anyhow::Result;
+use ash::{self, vk};
 use winit::{
     event_loop::EventLoop,
     window::{Window, WindowBuilder},
 };
 #[allow(unused_variables)]
-fn main() {
-    let event_loop = EventLoop::new();
-    let window = WindowBuilder::new().build(&event_loop).unwrap();
-
-    event_loop.run(move |event, _, control_flow| {
-        *control_flow = winit::event_loop::ControlFlow::Wait;
-
-        match event {
-            winit::event::Event::WindowEvent {
-                event: winit::event::WindowEvent::CloseRequested,
-                ..
-            } => *control_flow = winit::event_loop::ControlFlow::Exit,
-            _ => (),
-        }
-    });
+fn main() -> Result<()> {
+    let entry = unsafe { ash::Entry::load() }?;
+    let application_info = vk::ApplicationInfo::builder().api_version(vk::API_VERSION_1_3);
+    let create_info = vk::InstanceCreateInfo::builder().application_info(&application_info); //The VkInstanceCreateInfo structure is used to specify which validation layers and global extensions to                                                                                  // use when creating a Vulkan instance
+    let instance = unsafe { entry.create_instance(&create_info, None) }?;
+    unsafe { instance.destroy_instance(None) }
+    Ok(())
 }
