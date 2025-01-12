@@ -14,11 +14,13 @@ use winit::{
 #[allow(unused_variables)]
 fn main() -> Result<()> {
     //Config
-    let width = 720;
+   let width = 720;
     let height = 720;
     let value_count = width * height;
     let alpha = 255;
     let value = 255 | alpha << 24;
+    let vert_shader_code =
+        read_shader_code("shaders/triangle.spv");
 
     let entry = unsafe { ash::Entry::load() }?;
     //The VkInstanceCreateInfo structure is used to specify which validation layers and global extensions to                                                                                  // use when creating a Vulkan instance
@@ -128,18 +130,33 @@ fn main() -> Result<()> {
         .context("cannot access buffer from host")?;
 
     image::save_buffer(
-        "image.png",
+        "triangle.spv",
         data,
         width as u32,
         height as u32,
         image::ColorType::Rgba8,
     );
+   // image::save_buffer("shaders/triangle.spv", data, width as u32 , height as u32, image::ColorType::Rgba8,);
 
     let tri_shader = {
         let create_info = vk::ShaderModuleCreateInfo::builder();
+        let pipeline = vk::PipelineShaderStageCreateInfo::builder();
         unsafe {device.create_shader_module(&create_info, None)}?
+       
     };
+    
+        
+    
+    fn read_shader_code(shader_path: &str) -> Vec<u8> {
+        use std::fs::File;
+        use std::io::Read;
 
+        let spv_file = File::open(shader_path)
+            .expect(&format!("Failed to find spv file at {:?}", shader_path));
+        let bytes_code: Vec<u8> = spv_file.bytes().filter_map(|byte| byte.ok()).collect();
+
+        bytes_code
+    }
     //cleanup
     unsafe {device.destroy_shader_module(tri_shader, None)}
     unsafe { device.destroy_fence(fence, None) }
