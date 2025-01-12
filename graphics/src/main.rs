@@ -13,6 +13,13 @@ use winit::{
 };
 #[allow(unused_variables)]
 fn main() -> Result<()> {
+    //Config
+    let width = 720;
+    let height = 720;
+    let value_count = width * height;
+    let alpha = 255;
+    let value = 255 | alpha << 24;
+
     let entry = unsafe { ash::Entry::load() }?;
     //The VkInstanceCreateInfo structure is used to specify which validation layers and global extensions to                                                                                  // use when creating a Vulkan instance
     let instance = {
@@ -35,9 +42,7 @@ fn main() -> Result<()> {
     };
     let queue = unsafe { device.get_device_queue(0, 0) };
 
-
-     //Create Allocator 
-
+    //Create Allocator
 
     let mut allocator = {
         let allocator_create_description = AllocatorCreateDesc {
@@ -50,17 +55,12 @@ fn main() -> Result<()> {
         Allocator::new(&allocator_create_description)?
     };
 
-    //Config
-
-    let value_count = 16;
-    let value = 314;
-
     //Create Buffer
 
     let buffer = {
         let create_info = vk::BufferCreateInfo::builder()
-            .size(value_count / std::mem::size_of::<i32>() as vk::DeviceSize)
-            .usage(vk::BufferUsageFlags::UNIFORM_BUFFER);
+            .size(value_count * std::mem::size_of::<i32>() as vk::DeviceSize)
+            .usage(vk::BufferUsageFlags::TRANSFER_DST);
         unsafe { device.create_buffer(&create_info, None) }?
     };
     let allocation = {
@@ -93,7 +93,6 @@ fn main() -> Result<()> {
 
     //Recording command buffer
 
-
     {
         let begin_info = vk::CommandBufferBeginInfo::builder();
         unsafe { device.begin_command_buffer(command_buffer, &begin_info) }?;
@@ -109,35 +108,41 @@ fn main() -> Result<()> {
     }
     unsafe { device.end_command_buffer(command_buffer) }?;
 
-
     //Fence
     let fence = {
         let create_info = vk::FenceCreateInfo::builder().build();
-        unsafe {
-        device.create_fence(&create_info, None)
-        }?
+        unsafe { device.create_fence(&create_info, None) }?
     };
     //Execute command buffer by uploading it to gpu
     {
-   let submit_info = vk::SubmitInfo::builder().command_buffers(std::slice::from_ref(&command_buffer));
-   unsafe { device.queue_submit(queue, std::slice::from_ref(&submit_info), fence)}?;
-     
+        let submit_info =
+            vk::SubmitInfo::builder().command_buffers(std::slice::from_ref(&command_buffer));
+        unsafe { device.queue_submit(queue, std::slice::from_ref(&submit_info), fence) }?;
     }
 
-    unsafe {device.wait_for_fences(std::slice::from_ref(&fence), true , u64::MAX)};
+    unsafe { device.wait_for_fences(std::slice::from_ref(&fence), true, u64::MAX) };
 
     //Read Data
+    let data = allocation
+        .mapped_slice()
+        .context("cannot access buffer from host")?;
 
-   for value in  allocation.mapped_slice().context("cannot access buffer from host")?{
-    println!("{}",value);
-   }
+    image::save_buffer(
+        "image.png",
+        data,
+        width as u32,
+        height as u32,
+        image::ColorType::Rgba8,
+    );
 
-
-
+    let tri_shader = {
+        let create_info = vk::ShaderModuleCreateInfo::builder();
+        unsafe {device.create_shader_module(&create_info, None)}?
+    };
 
     //cleanup
-
-    unsafe {device.destroy_fence(fence, None)}
+    unsafe {device.destroy_shader_module(tri_shader, None)}
+    unsafe { device.destroy_fence(fence, None) }
     unsafe { device.destroy_command_pool(command_pool, None) }
     allocator.free(allocation)?;
     drop(allocator);
